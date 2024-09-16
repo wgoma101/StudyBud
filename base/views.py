@@ -18,9 +18,8 @@ from django.contrib.auth.decorators import login_required
 # ]
 
 def loginPage(request):
-
+    page = 'login'
     if request.user.is_authenticated:
-        page = 'login'
         return redirect('home')
 
     if request.method == 'POST':
@@ -38,16 +37,17 @@ def loginPage(request):
             return redirect('home')
         else:
             messages.error(request, 'Username or password is incorrect')
-    context = {'page': 'page'}
+    context = {'page': page}
     return render(request, 'base/login_register.html', context)
 
 def logoutUser(request):
     logout(request)
     return redirect('home')
 
-def registerUser(request):
+def registerPage(request):
     page = 'register'
     return render(request, 'base/login_register.html')
+
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     rooms = Room.objects.filter(

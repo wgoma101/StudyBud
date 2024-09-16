@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.contrib import messages
 from django.db.models import Q
 from .models import Room, Topic
 from django.contrib.auth.models import User
@@ -19,7 +20,9 @@ def loginPage(request):
         username = request.POST.get('username').lower()
         password = request.POST.get('password')
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(username=username)
+        except:
+            messages.error(request, 'Username does not exist')
 
     context = {}
     return render(request, 'base/login_register.html', context)
